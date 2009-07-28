@@ -15,8 +15,33 @@ control which positions are and are not enabled.
 
 Usage
 -----
-Full instructions for using this module are forthcoming. Stay
-tuned!
+You can use `MergeAdapter` directly or subclass it. The
+latter is needed to support controlling which rows are/are
+not enabled.
+
+### Constructors
+
+There is only one, no-argument constructor at this time. Just
+call `new MergeAdapter()` and you are on your way!
+
+### Adding Content
+
+You have three methods for defining what goes into the
+MergeAdapter. You can call addAdapter() to have all of that
+adapter's rows appear in the combined roster. You can call
+addView() to add a single View as a row. You can also call
+addViews() to add a List of View objects to use as rows.
+
+Each of these will appear in combined roster in the order
+they were added.
+
+### Other Methods to Override
+
+You are welcome to override other methods as well, since this
+is just an `Adapter`. In particular, if all rows are not
+enabled for selection, you will want to override `isEnabled()`
+and return `true` or `false` as needed to indicate which rows are
+selectable and which are not (e.g., header rows).
 
 Dependencies
 ------------
