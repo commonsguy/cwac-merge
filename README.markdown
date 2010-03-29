@@ -43,6 +43,13 @@ enabled for selection, you will want to override `isEnabled()`
 and return `true` or `false` as needed to indicate which rows are
 selectable and which are not (e.g., header rows).
 
+### Timing
+
+You must pour the contents into the `MergeAdapter` *before*
+calling `setListAdapter()` to associate the `MergeAdapter`
+with a `ListView`. This limitation may be corrected in future
+releases of this class.
+
 Dependencies
 ------------
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
@@ -75,6 +82,10 @@ Questions
 If you have questions regarding the use of this code, please
 join and ask them on the [cw-android Google Group][gg]. Be sure to
 indicate which CWAC module you have questions about.
+
+Who Made This?
+--------------
+<a href="http://commonsware.com">![CommonsWare](http://commonsware.com/images/logo.png)</a>
 
 [gg]: http://groups.google.com/group/cw-android
 [sacklist]: http://github.com/commonsguy/cwac-sacklist/tree/master
