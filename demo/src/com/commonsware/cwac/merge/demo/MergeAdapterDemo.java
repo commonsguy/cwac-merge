@@ -49,7 +49,9 @@ public class MergeAdapterDemo extends ListActivity {
 		MergeAdapter adapter=new MergeAdapter();
 		
 		adapter.addAdapter(buildFirstList());
-		adapter.addView(buildButton());
+		adapter.addView(buildButton(), true);
+		adapter.addAdapter(buildSecondList());
+		adapter.addView(buildLabel());
 		adapter.addAdapter(buildSecondList());
 
 		setListAdapter(adapter);
@@ -62,7 +64,14 @@ public class MergeAdapterDemo extends ListActivity {
 	}
 	
 	private View buildButton() {
-//		Button result=new Button(this);
+		Button result=new Button(this);
+		
+		result.setText("Hello, world!");
+		
+		return(result);
+	}
+	
+	private View buildLabel() {
 		TextView result=new TextView(this);
 		
 		result.setText("Hello, world!");

@@ -58,11 +58,21 @@ public class MergeAdapter extends BaseAdapter {
 		* @param view Single view to add
     */
 	public void addView(View view) {
+		addView(view, false);
+	}
+
+	/**
+		* Adds a new View to the roster of things to appear
+		* in the aggregate list.
+		* @param view Single view to add
+		* @param enabled false if views are disabled, true if enabled
+    */
+	public void addView(View view, boolean enabled) {
 		ArrayList<View> list=new ArrayList<View>(1);
 		
 		list.add(view);
 		
-		addViews(list);
+		addViews(list, enabled);
 	}
 
 	/**
@@ -71,7 +81,22 @@ public class MergeAdapter extends BaseAdapter {
 		* @param views List of views to add
     */
 	public void addViews(List<View> views) {
-		pieces.add(new SackOfViewsAdapter(views));
+		addViews(views, false);
+	}
+
+	/**
+		* Adds a list of views to the roster of things to appear
+		* in the aggregate list.
+		* @param views List of views to add
+		* @param enabled false if views are disabled, true if enabled
+    */
+	public void addViews(List<View> views, boolean enabled) {
+		if (enabled) {
+			pieces.add(new EnabledSackAdapter(views));
+		}
+		else {
+			pieces.add(new SackOfViewsAdapter(views));
+		}
 	}
 
 	/**
@@ -220,5 +245,21 @@ public class MergeAdapter extends BaseAdapter {
 		}
 		
 		return(-1);
+	}
+	
+	private static class EnabledSackAdapter extends SackOfViewsAdapter {
+		public EnabledSackAdapter(List<View> views) {
+			super(views);
+		}
+	
+		@Override
+		public boolean areAllItemsEnabled() {
+			return(true);
+		}
+		
+		@Override
+		public boolean isEnabled(int position) {
+			return(true);
+		}
 	}
 }
