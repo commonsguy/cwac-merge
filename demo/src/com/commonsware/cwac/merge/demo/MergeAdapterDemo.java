@@ -62,7 +62,8 @@ public class MergeAdapterDemo extends ListActivity {
 	}
 	
 	private View buildButton() {
-		Button result=new Button(this);
+//		Button result=new Button(this);
+		TextView result=new TextView(this);
 		
 		result.setText("Hello, world!");
 		
