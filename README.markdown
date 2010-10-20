@@ -13,6 +13,10 @@ then attach your adapter to the `ListView`. You can also
 extend `MergeAdapter` to override `isEnabled()`, so you can
 control which positions are and are not enabled.
 
+This is packaged as an Android library project, though a simple
+JAR is also available from the Downloads section of this
+GitHub repository.
+
 Usage
 -----
 You can use `MergeAdapter` directly or subclass it. The
@@ -27,28 +31,40 @@ call `new MergeAdapter()` and you are on your way!
 ### Adding Content
 
 You have three methods for defining what goes into the
-MergeAdapter. You can call addAdapter() to have all of that
+`MergeAdapter`. You can call `addAdapter()` to have all of that
 adapter's rows appear in the combined roster. You can call
-addView() to add a single View as a row. You can also call
-addViews() to add a List of View objects to use as rows.
+`addView()` to add a single `View` as a row. You can also call
+`addViews()` to add a `List` of `View` objects to use as rows.
 
 Each of these will appear in combined roster in the order
 they were added.
 
+The `addView()` and `addViews()` methods have a variant that
+accepts a boolean 2nd parameter. Set this boolean to true if you
+want the rows represented by these views to be enabled (i.e.,
+selectable). The default is that they are disabled, for use
+as if they were header rows. For adapters added via `addAdapter()`,
+the determination of whether or not rows are enabled is determined
+by the underlying adapter.
+
 ### Other Methods to Override
 
 You are welcome to override other methods as well, since this
-is just an `Adapter`. In particular, if all rows are not
-enabled for selection, you will want to override `isEnabled()`
-and return `true` or `false` as needed to indicate which rows are
-selectable and which are not (e.g., header rows).
+is just an `Adapter`.
 
 ### Timing
 
 You must pour the contents into the `MergeAdapter` *before*
 calling `setListAdapter()` to associate the `MergeAdapter`
-with a `ListView`. This limitation may be corrected in future
-releases of this class.
+with a `ListView`. This limitation is required because Android
+only calls getViewTypeCount() once, and adding more views or
+adapters adds more view types.
+
+Note, though, that you can modify the underlying adapters. So,
+for example, if you add a `CursorAdapter` to the `MergeAdapter`,
+and you `requery()` the `Cursor`, the changes should be reflected
+via the `MergeAdapter` to whatever `AdapterView` the `MergeAdapter`
+is connected to.
 
 Dependencies
 ------------
@@ -59,12 +75,12 @@ ones that you have patched yourself.
 
 Version
 -------
-This is version 0.1 of this module, meaning it is pretty darn
-new.
+This is version v0.2.0 of this module, meaning it is slowly
+progressing towards respectability.
 
 Demo
 ----
-In the `com.commonsware.cwac.merge.demo` package you will find
+In the `demo/` sub-project you will find
 a sample activity that demonstrates the use of `MergeAdapter`.
 
 Note that when you build the JAR via `ant jar`, the sample
@@ -82,6 +98,10 @@ Questions
 If you have questions regarding the use of this code, please
 join and ask them on the [cw-android Google Group][gg]. Be sure to
 indicate which CWAC module you have questions about.
+
+Release Notes
+-------------
+v0.2.0: converted to Android library project, added enabled versions of `addView()` and `addViews()`, correctly cascades data set changes from underlying adapters
 
 Who Made This?
 --------------
