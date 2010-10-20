@@ -15,6 +15,7 @@
 
 package com.commonsware.cwac.merge;
 
+import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,6 +51,7 @@ public class MergeAdapter extends BaseAdapter {
     */
 	public void addAdapter(ListAdapter adapter) {
 		pieces.add(adapter);
+		adapter.registerDataSetObserver(new CascadeDataSetObserver());
 	}
 
 	/**
@@ -92,10 +94,10 @@ public class MergeAdapter extends BaseAdapter {
     */
 	public void addViews(List<View> views, boolean enabled) {
 		if (enabled) {
-			pieces.add(new EnabledSackAdapter(views));
+			addAdapter(new EnabledSackAdapter(views));
 		}
 		else {
-			pieces.add(new SackOfViewsAdapter(views));
+			addAdapter(new SackOfViewsAdapter(views));
 		}
 	}
 
@@ -260,6 +262,18 @@ public class MergeAdapter extends BaseAdapter {
 		@Override
 		public boolean isEnabled(int position) {
 			return(true);
+		}
+	}
+	
+	private class CascadeDataSetObserver extends DataSetObserver {
+		@Override
+		public void onChanged() {
+			notifyDataSetChanged();
+		}
+		
+		@Override
+		public void onInvalidated() {
+			notifyDataSetInvalidated();
 		}
 	}
 }

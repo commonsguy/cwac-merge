@@ -30,25 +30,27 @@ import java.util.Collections;
 import com.commonsware.cwac.merge.MergeAdapter;
 
 public class MergeAdapterDemo extends ListActivity {
-	private static String[] items={"lorem", "ipsum", "dolor",
-																	"sit", "amet", "consectetuer",
-																	"adipiscing", "elit", "morbi",
-																	"vel", "ligula", "vitae",
-																	"arcu", "aliquet", "mollis",
-																	"etiam", "vel", "erat",
-																	"placerat", "ante",
-																	"porttitor", "sodales",
-																	"pellentesque", "augue",
-																	"purus"};
+	private static final String[] items={"lorem", "ipsum", "dolor",
+																			"sit", "amet", "consectetuer",
+																			"adipiscing", "elit", "morbi",
+																			"vel", "ligula", "vitae",
+																			"arcu", "aliquet", "mollis",
+																			"etiam", "vel", "erat",
+																			"placerat", "ante",
+																			"porttitor", "sodales",
+																			"pellentesque", "augue",
+																			"purus"};
+	private MergeAdapter adapter=null;
+	private ArrayAdapter<String> arrayAdapter=null;
 	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.main);
 		
-		MergeAdapter adapter=new MergeAdapter();
-		
-		adapter.addAdapter(buildFirstList());
+		adapter=new MergeAdapter();
+		arrayAdapter=buildFirstList();
+		adapter.addAdapter(arrayAdapter);
 		adapter.addView(buildButton(), true);
 		adapter.addAdapter(buildSecondList());
 		adapter.addView(buildLabel());
@@ -57,16 +59,23 @@ public class MergeAdapterDemo extends ListActivity {
 		setListAdapter(adapter);
 	}
 	
-	private ListAdapter buildFirstList() {
+	private ArrayAdapter<String> buildFirstList() {
 		return(new ArrayAdapter<String>(this,
 																		android.R.layout.simple_list_item_1,
-																		items));
+																		new ArrayList<String>(Arrays.asList(items))));
 	}
 	
 	private View buildButton() {
 		Button result=new Button(this);
 		
-		result.setText("Hello, world!");
+		result.setText("Add Capitalized Words");
+		result.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				for (String item : items) {
+					arrayAdapter.add(item.toUpperCase());
+				}
+			}
+		});
 		
 		return(result);
 	}
