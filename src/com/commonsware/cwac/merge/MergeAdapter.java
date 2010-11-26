@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
+import android.widget.SectionIndexer;
 import java.util.ArrayList;
 import java.util.List;
 import com.commonsware.cwac.sacklist.SackOfViewsAdapter;
@@ -34,7 +35,7 @@ import com.commonsware.cwac.sacklist.SackOfViewsAdapter;
  * returned by getItemId().
  *
  */
-public class MergeAdapter extends BaseAdapter {
+public class MergeAdapter extends BaseAdapter implements SectionIndexer {
 	private ArrayList<ListAdapter> pieces=new ArrayList<ListAdapter>();
 
 	/**
@@ -113,6 +114,25 @@ public class MergeAdapter extends BaseAdapter {
 
 			if (position<size) {
 				return(piece.getItem(position));
+			}
+
+			position-=size;
+		}
+		
+		return(null);
+	}
+
+	/**
+		* Get the adapter associated with the specified
+		* position in the data set.
+		* @param position Position of the item whose adapter we want
+    */
+	public ListAdapter getAdapter(int position) {
+		for (ListAdapter piece : pieces) {
+			int size=piece.getCount();
+
+			if (position<size) {
+				return(piece);
 			}
 
 			position-=size;
@@ -247,6 +267,86 @@ public class MergeAdapter extends BaseAdapter {
 		}
 		
 		return(-1);
+	}
+	
+	@Override
+	public int getPositionForSection(int section) {
+		int position=0;
+		
+		for (ListAdapter piece : pieces) {
+			if (piece instanceof SectionIndexer) {
+				Object[] sections=((SectionIndexer)piece).getSections();
+				int numSections=0;
+				
+				if (sections!=null) {
+					numSections=sections.length;
+				}
+				
+				if (section<numSections) {
+					return(position+((SectionIndexer)piece).getPositionForSection(section));
+				}
+				else if (sections!=null) {
+					section-=numSections;
+				}
+			}
+			
+			position+=piece.getCount();
+		}
+		
+		return(0);
+	}
+	
+	@Override
+	public int getSectionForPosition(int position) {
+		int section=0;
+		
+		for (ListAdapter piece : pieces) {
+			int size=piece.getCount();
+			
+			if (position<size) {
+				if (piece instanceof SectionIndexer) {
+					return(section+((SectionIndexer)piece).getSectionForPosition(position));
+				}
+				
+				return(0);
+			}
+			else {
+				if (piece instanceof SectionIndexer) {
+					Object[] sections=((SectionIndexer)piece).getSections();
+					
+					if (sections!=null) {
+						section+=sections.length;
+					}
+				}
+			}
+			
+			position-=size;
+		}
+		
+		return(0);
+	}
+	
+	@Override
+	public Object[] getSections() {
+		ArrayList<Object> sections=new ArrayList<Object>();
+		
+		for (ListAdapter piece : pieces) {
+			if (piece instanceof SectionIndexer) {
+				Object[] curSections=((SectionIndexer)piece).getSections();
+				
+				if (curSections!=null) {
+					for (Object section : curSections) {
+						sections.add(section);
+					}
+				}
+			}
+		}
+		
+		if (sections.size()==0) {
+			return(null);
+		}
+
+		return(sections.toArray(new Object[0]));
 	}
 	
 	private static class EnabledSackAdapter extends SackOfViewsAdapter {
