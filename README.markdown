@@ -75,7 +75,7 @@ ones that you have patched yourself.
 
 Version
 -------
-This is version v0.2.0 of this module, meaning it is slowly
+This is version v0.2.1 of this module, meaning it is slowly
 progressing towards respectability.
 
 Demo
@@ -101,6 +101,7 @@ indicate which CWAC module you have questions about.
 
 Release Notes
 -------------
+v0.2.1: added `getAdapter()` method to return the `ListAdapter` associated with a given position
 v0.2.0: converted to Android library project, added enabled versions of `addView()` and `addViews()`, correctly cascades data set changes from underlying adapters
 
 Who Made This?
