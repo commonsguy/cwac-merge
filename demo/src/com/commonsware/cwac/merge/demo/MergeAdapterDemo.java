@@ -17,12 +17,14 @@ package com.commonsware.cwac.merge.demo;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +59,12 @@ public class MergeAdapterDemo extends ListActivity {
 		adapter.addAdapter(buildSecondList());
 
 		setListAdapter(adapter);
+	}
+	
+	@Override
+	public void onListItemClick(ListView parent, View v,
+															int position, long id) {
+	 	Log.d("MergeAdapterDemo", String.valueOf(position));
 	}
 	
 	private ArrayAdapter<String> buildFirstList() {
