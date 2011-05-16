@@ -66,6 +66,21 @@ and you `requery()` the `Cursor`, the changes should be reflected
 via the `MergeAdapter` to whatever `AdapterView` the `MergeAdapter`
 is connected to.
 
+### Supporting `android:id/empty`
+
+A `ListActivity` supports a widget in its layout, with an `android:id`
+of `@android:id/empty`, which will be displayed if the list is
+empty. More specifically, it will be displayed if the `MergeAdapter`
+returns `true` for `isEmpty()`. The default implementation of
+`isEmpty()` in `BaseAdapter` checks `getCount()` and compares it to `0`.
+
+In many cases, this default will be fine. However, if you are
+adding regular `View`s to the adapter (e.g., section headings),
+then `getCount()` will include these additional rows, and so `isEmpty()`
+will never return `true`. In this case, you may need to override
+`isEmpty()` to implement your own business logic to determine
+when the list is, indeed, "empty".
+
 Dependencies
 ------------
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
