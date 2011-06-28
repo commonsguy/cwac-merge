@@ -110,9 +110,10 @@ file.
 
 Questions
 ---------
-If you have questions regarding the use of this code, please
-join and ask them on the [cw-android Google Group][gg]. Be sure to
-indicate which CWAC module you have questions about.
+If you have questions regarding the use of this code, please post a question
+on [StackOverflow](http://stackoverflow.com/questions/ask) tagged with `commonsware` and `android`. Be sure to indicate
+what CWAC module you are having issues with, and be sure to include source code 
+and stack traces if you are encountering crashes.
 
 Release Notes
 -------------
