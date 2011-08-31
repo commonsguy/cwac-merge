@@ -36,7 +36,7 @@ import com.commonsware.cwac.sacklist.SackOfViewsAdapter;
  *
  */
 public class MergeAdapter extends BaseAdapter implements SectionIndexer {
-	private ArrayList<ListAdapter> pieces=new ArrayList<ListAdapter>();
+	protected ArrayList<ListAdapter> pieces=new ArrayList<ListAdapter>();
 
 	/**
 		* Stock constructor, simply chaining to the superclass.
