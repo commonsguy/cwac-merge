@@ -13,6 +13,9 @@ then attach your adapter to the `ListView`. You can also
 extend `MergeAdapter` to override `isEnabled()`, so you can
 control which positions are and are not enabled.
 
+There is also `MergeSpinnerAdapter` for use with `Spinner`
+widgets.
+
 This is packaged as an Android library project, though a simple
 JAR is also available from the Downloads section of this
 GitHub repository.
@@ -26,7 +29,8 @@ not enabled.
 ### Constructors
 
 There is only one, no-argument constructor at this time. Just
-call `new MergeAdapter()` and you are on your way!
+call `new MergeAdapter()` or `new MergeSpinnerAdapter()` and
+you are on your way!
 
 ### Adding Content
 
@@ -35,6 +39,8 @@ You have three methods for defining what goes into the
 adapter's rows appear in the combined roster. You can call
 `addView()` to add a single `View` as a row. You can also call
 `addViews()` to add a `List` of `View` objects to use as rows.
+
+**NOTE**: `MergeSpinnerAdapter` only supports `addAdapter()`.
 
 Each of these will appear in combined roster in the order
 they were added.
@@ -81,6 +87,12 @@ will never return `true`. In this case, you may need to override
 `isEmpty()` to implement your own business logic to determine
 when the list is, indeed, "empty".
 
+### Contents of `MergeSpinnerAdapter`
+
+You should add properly-configured `SpinnerAdapter` implementations
+(e.g., `ArrayAdapter`, `CursorAdapter`) to a `MergeSpinnerAdapter`
+to have it work properly.
+
 Dependencies
 ------------
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
@@ -90,8 +102,8 @@ ones that you have patched yourself.
 
 Version
 -------
-This is version v0.2.1 of this module, meaning it is slowly
-progressing towards respectability.
+This is version v0.3 of this module, meaning it is not completely
+scary now.
 
 Demo
 ----
@@ -117,6 +129,7 @@ and stack traces if you are encountering crashes.
 
 Release Notes
 -------------
+v0.3.0: added `MergeSpinnerAdapter` support
 v0.2.1: added `getAdapter()` method to return the `ListAdapter` associated with a given position
 v0.2.0: converted to Android library project, added enabled versions of `addView()` and `addViews()`, correctly cascades data set changes from underlying adapters
 
@@ -124,5 +137,4 @@ Who Made This?
 --------------
 <a href="http://commonsware.com">![CommonsWare](http://commonsware.com/images/logo.png)</a>
 
-[gg]: http://groups.google.com/group/cw-android
 [sacklist]: http://github.com/commonsguy/cwac-sacklist/tree/master
