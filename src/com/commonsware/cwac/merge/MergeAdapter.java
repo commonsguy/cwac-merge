@@ -101,7 +101,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
       addAdapter(new SackOfViewsAdapter(views));
     }
   }
-
+  
   /**
     * Get the data item associated with the specified
     * position in the data set.
