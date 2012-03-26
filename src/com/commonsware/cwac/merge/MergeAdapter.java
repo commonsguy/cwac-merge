@@ -36,8 +36,9 @@ import com.commonsware.cwac.sacklist.SackOfViewsAdapter;
  *
  */
 public class MergeAdapter extends BaseAdapter implements SectionIndexer {
-  protected ArrayList<ListAdapter> pieces=new ArrayList<ListAdapter>();
+  protected List<ToggleableListAdapter> pieces=new ArrayList<ToggleableListAdapter>();
 
+  
   /**
     * Stock constructor, simply chaining to the superclass.
     */
@@ -49,19 +50,35 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     * Adds a new adapter to the roster of things to appear
     * in the aggregate list.
     * @param adapter Source for row views for this section
+    * @returns the pieceNo which identifies the piece for later reference.
     */
-  public void addAdapter(ListAdapter adapter) {
-    pieces.add(adapter);
+  public int addAdapter(ListAdapter adapter) {
+    pieces.add(new ToggleableListAdapter(adapter, true));
     adapter.registerDataSetObserver(new CascadeDataSetObserver());
+    return pieces.size()-1;
   }
+  
+  /**
+   * Adds a new adapter to the roster of things to appear
+   * in the aggregate list.
+   * @param adapter Source for row views for this section
+   * @param visible if the items of the adapter should be visible
+   * @returns the pieceNo which identifies the piece for later reference.
+   */
+ public int addAdapter(ListAdapter adapter, boolean visible) {
+   pieces.add(new ToggleableListAdapter(adapter, visible));
+   adapter.registerDataSetObserver(new CascadeDataSetObserver());
+   return pieces.size()-1;
+ }
 
   /**
     * Adds a new View to the roster of things to appear
     * in the aggregate list.
     * @param view Single view to add
+    * @returns the pieceNo which identifies the piece for later reference.
     */
-  public void addView(View view) {
-    addView(view, false);
+  public int addView(View view) {
+    return addView(view, false, true);
   }
 
   /**
@@ -69,22 +86,25 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     * in the aggregate list.
     * @param view Single view to add
     * @param enabled false if views are disabled, true if enabled
+    * @param visible if the view should be shown initially
+    * @returns the pieceNo which identifies the piece for later reference.
     */
-  public void addView(View view, boolean enabled) {
+  public int addView(View view, boolean enabled, boolean visible) {
     ArrayList<View> list=new ArrayList<View>(1);
     
     list.add(view);
     
-    addViews(list, enabled);
+    return addViews(list, enabled, visible);
   }
 
   /**
     * Adds a list of views to the roster of things to appear
     * in the aggregate list.
     * @param views List of views to add
+    * @returns the pieceNo which identifies the piece for later reference
     */
-  public void addViews(List<View> views) {
-    addViews(views, false);
+  public int addViews(List<View> views) {
+    return addViews(views, false, true);
   }
 
   /**
@@ -92,14 +112,50 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     * in the aggregate list.
     * @param views List of views to add
     * @param enabled false if views are disabled, true if enabled
+    * @param visible if all views should be shown initially
+    * @returns the pieceNo which identifies the piece for later reference
     */
-  public void addViews(List<View> views, boolean enabled) {
+  public int addViews(List<View> views, boolean enabled, boolean visible) {
     if (enabled) {
-      addAdapter(new EnabledSackAdapter(views));
+      return addAdapter(new EnabledSackAdapter(views), visible);
     }
     else {
-      addAdapter(new SackOfViewsAdapter(views));
+      return addAdapter(new SackOfViewsAdapter(views), visible);
     }
+  }
+  
+  /**
+   * Includes the piece in the adapter and notifies all listeners.
+   * @param pieceNo the number of the piece to show
+   */
+  public void showPiece(int pieceNo) {
+    setVisible(pieceNo, true);
+  }
+
+  /**
+   * Hides the piece in the adapter and notifies all listeners.
+   * @param pieceNo the number of the piece to hide
+   */  
+  public void hidePiece(int pieceNo) {
+    setVisible(pieceNo, false);
+  }
+  
+  /**
+   * Returns the visibility state of a piece.
+   * @param pieceNo the number of the piece to show/hide
+   */
+  public boolean isVisible(int pieceNo) {
+    return pieces.get(pieceNo).visible;
+  }
+  
+  /**
+   * Sets the visibility state of a piece and notifies all listeners.
+   * @param pieceNo the number of the piece to show/hide
+   * @param visible visibility state
+   */
+  public void setVisible(int pieceNo, boolean visible) {
+    pieces.get(pieceNo).visible=visible;
+    notifyDataSetChanged();
   }
   
   /**
@@ -109,11 +165,15 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     */
   @Override
   public Object getItem(int position) {
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
+      int size=piece.adapter.getCount();
 
       if (position<size) {
-        return(piece.getItem(position));
+        return(piece.adapter.getItem(position));
       }
 
       position-=size;
@@ -128,11 +188,14 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     * @param position Position of the item whose adapter we want
     */
   public ListAdapter getAdapter(int position) {
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      int size=piece.adapter.getCount();
 
       if (position<size) {
-        return(piece);
+        return(piece.adapter);
       }
 
       position-=size;
@@ -149,8 +212,11 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getCount() {
     int total=0;
     
-    for (ListAdapter piece : pieces) {
-      total+=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      total+=piece.adapter.getCount();
     }
     
     return(total);
@@ -164,8 +230,8 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getViewTypeCount() {
     int total=0;
     
-    for (ListAdapter piece : pieces) {
-      total+=piece.getViewTypeCount();
+    for (ToggleableListAdapter piece : pieces) {
+      total+=piece.adapter.getViewTypeCount();
     }
     
     return(Math.max(total, 1));   // needed for setListAdapter() before content add'
@@ -181,16 +247,21 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     int typeOffset=0;
     int result=-1;
     
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        typeOffset+=piece.adapter.getViewTypeCount();
+        continue;
+      }
+      
+      int size=piece.adapter.getCount();
 
       if (position<size) {
-        result=typeOffset+piece.getItemViewType(position);
+        result=typeOffset+piece.adapter.getItemViewType(position);
         break;
       }
 
       position-=size;
-      typeOffset+=piece.getViewTypeCount();
+      typeOffset+=piece.adapter.getViewTypeCount();
     }
 
     return(result);
@@ -212,11 +283,15 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     */
   @Override
   public boolean isEnabled(int position) {
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
+      int size=piece.adapter.getCount();
 
       if (position<size) {
-        return(piece.isEnabled(position));
+        return(piece.adapter.isEnabled(position));
       }
 
       position-=size;
@@ -235,12 +310,16 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   @Override
   public View getView(int position, View convertView,
                       ViewGroup parent) {
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }      
+      
+      int size=piece.adapter.getCount();
 
       if (position<size) {
         
-        return(piece.getView(position, convertView, parent));
+        return(piece.adapter.getView(position, convertView, parent));
       }
 
       position-=size;
@@ -256,11 +335,15 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     */
   @Override
   public long getItemId(int position) {
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
+      int size=piece.adapter.getCount();
       
       if (position<size) {
-        return(piece.getItemId(position));
+        return(piece.adapter.getItemId(position));
       }
 
       position-=size;
@@ -273,7 +356,11 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getPositionForSection(int section) {
     int position=0;
     
-    for (ListAdapter piece : pieces) {
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
       if (piece instanceof SectionIndexer) {
         Object[] sections=((SectionIndexer)piece).getSections();
         int numSections=0;
@@ -290,7 +377,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
         }
       }
       
-      position+=piece.getCount();
+      position+=piece.adapter.getCount();
     }
     
     return(0);
@@ -300,8 +387,12 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getSectionForPosition(int position) {
     int section=0;
     
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
+      int size=piece.adapter.getCount();
       
       if (position<size) {
         if (piece instanceof SectionIndexer) {
@@ -330,7 +421,11 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public Object[] getSections() {
     ArrayList<Object> sections=new ArrayList<Object>();
     
-    for (ListAdapter piece : pieces) {
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
       if (piece instanceof SectionIndexer) {
         Object[] curSections=((SectionIndexer)piece).getSections();
         
@@ -374,6 +469,17 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     @Override
     public void onInvalidated() {
       notifyDataSetInvalidated();
+    }
+  }
+
+  protected static class ToggleableListAdapter {
+    protected final ListAdapter adapter;
+    protected boolean visible;
+
+    public ToggleableListAdapter(ListAdapter adapter, boolean visible) {
+      super();
+      this.adapter = adapter;
+      this.visible = visible;
     }
   }
 }

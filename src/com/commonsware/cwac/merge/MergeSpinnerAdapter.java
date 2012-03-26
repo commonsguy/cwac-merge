@@ -37,8 +37,12 @@ public class MergeSpinnerAdapter extends MergeAdapter {
    */
   public View getDropDownView(int position, View convertView,
                               ViewGroup parent) {
-    for (ListAdapter piece : pieces) {
-      int size=piece.getCount();
+    for (ToggleableListAdapter piece : pieces) {
+      if(!piece.visible) {
+        continue;
+      }
+      
+      int size=piece.adapter.getCount();
 
       if (position<size) {
         return(((SpinnerAdapter)piece).getDropDownView(position,
@@ -59,7 +63,7 @@ public class MergeSpinnerAdapter extends MergeAdapter {
    * @param view
    *          Single view to add
    */
-  public void addView(View view) {
+  public int addView(View view) {
     throw new RuntimeException("Not supported with MergeSpinnerAdapter");
   }
 
@@ -72,7 +76,7 @@ public class MergeSpinnerAdapter extends MergeAdapter {
    * @param enabled
    *          false if views are disabled, true if enabled
    */
-  public void addView(View view, boolean enabled) {
+  public int addView(View view, boolean enabled, boolean visible) {
     throw new RuntimeException("Not supported with MergeSpinnerAdapter");
   }
 
@@ -83,7 +87,7 @@ public class MergeSpinnerAdapter extends MergeAdapter {
    * @param views
    *          List of views to add
    */
-  public void addViews(List<View> views) {
+  public int addViews(List<View> views) {
     throw new RuntimeException("Not supported with MergeSpinnerAdapter");
   }
 
@@ -96,7 +100,7 @@ public class MergeSpinnerAdapter extends MergeAdapter {
    * @param enabled
    *          false if views are disabled, true if enabled
    */
-  public void addViews(List<View> views, boolean enabled) {
+  public int addViews(List<View> views, boolean enabled, boolean visible) {
     throw new RuntimeException("Not supported with MergeSpinnerAdapter");
   }
 }
