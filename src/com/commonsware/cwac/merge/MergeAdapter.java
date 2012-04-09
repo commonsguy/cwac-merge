@@ -343,7 +343,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     }
     
     if (sections.size()==0) {
-      return(null);
+      return(new String[0]);
     }
 
     return(sections.toArray(new Object[0]));
