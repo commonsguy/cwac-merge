@@ -102,7 +102,7 @@ ones that you have patched yourself.
 
 Version
 -------
-This is version v0.3 of this module, meaning it is not completely
+This is version v0.3.1 of this module, meaning it is not completely
 scary now.
 
 Demo
@@ -134,9 +134,10 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
-v0.3.0: added `MergeSpinnerAdapter` support
-v0.2.1: added `getAdapter()` method to return the `ListAdapter` associated with a given position
-v0.2.0: converted to Android library project, added enabled versions of `addView()` and `addViews()`, correctly cascades data set changes from underlying adapters
+- v0.3.1: added workaround for http://code.google.com/p/android/issues/detail?id=16155
+- v0.3.0: added `MergeSpinnerAdapter` support
+- v0.2.1: added `getAdapter()` method to return the `ListAdapter` associated with a given position
+- v0.2.0: converted to Android library project, added enabled versions of `addView()` and `addViews()`, correctly cascades data set changes from underlying adapters
 
 Who Made This?
 --------------
