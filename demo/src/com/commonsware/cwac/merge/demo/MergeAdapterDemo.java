@@ -38,7 +38,10 @@ public class MergeAdapterDemo extends ListActivity {
           "augue", "purus" };
   private MergeAdapter adapter=null;
   private ArrayAdapter<String> arrayAdapter=null;
-
+  
+  private int firstNo = -1;
+  private int labelPieceNo = -1;
+  
   @Override
   public void onCreate(Bundle icicle) {
     super.onCreate(icicle);
@@ -46,10 +49,12 @@ public class MergeAdapterDemo extends ListActivity {
 
     adapter=new MergeAdapter();
     arrayAdapter=buildFirstList();
-    adapter.addAdapter(arrayAdapter);
-    adapter.addView(buildButton(), true);
+    firstNo = adapter.addAdapter(arrayAdapter);
+    adapter.addView(buildToggleFirstAdapter(), true, true);
+    adapter.addView(buildCapitalizeButton(), true, true);
     adapter.addAdapter(buildSecondList());
-    adapter.addView(buildLabel());
+    labelPieceNo=adapter.addView(buildLabel());
+    adapter.addView(buildToggleLabelButton(), true, true);
     adapter.addAdapter(buildSecondList());
 
     setListAdapter(adapter);
@@ -77,7 +82,7 @@ public class MergeAdapterDemo extends ListActivity {
                                                                 .asList(items))));
   }
 
-  private View buildButton() {
+  private View buildCapitalizeButton() {
     Button result=new Button(this);
 
     result.setText("Add Capitalized Words");
@@ -91,6 +96,36 @@ public class MergeAdapterDemo extends ListActivity {
 
     return(result);
   }
+  
+	private View buildToggleLabelButton() {
+		Button result = new Button(this);
+
+		result.setText("Toggle Label");
+		result.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if(labelPieceNo!=-1) {
+				  adapter.setVisible(labelPieceNo, !adapter.isVisible(labelPieceNo));
+				}
+			}
+		});
+
+		return (result);
+	}
+	
+	 private View buildToggleFirstAdapter() {
+	    Button result = new Button(this);
+
+	    result.setText("Toggle First");
+	    result.setOnClickListener(new View.OnClickListener() {
+	      public void onClick(View v) {
+	        if(firstNo!=-1) {
+	          adapter.setVisible(firstNo, !adapter.isVisible(firstNo));
+	        }
+	      }
+	    });
+
+	    return (result);
+	  }
 
   private View buildLabel() {
     TextView result=new TextView(this);
