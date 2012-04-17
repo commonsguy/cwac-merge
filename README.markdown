@@ -9,9 +9,7 @@ multiple data sources, or if you have a handful of ordinary
 
 Simply create a `MergeAdapter` and call `addAdapter()`,
 `addView()`, or `addViews()` (latter accepting a `List<View>`),
-then attach your adapter to the `ListView`. You can also
-extend `MergeAdapter` to override `isEnabled()`, so you can
-control which positions are and are not enabled.
+then attach your adapter to the `ListView`. 
 
 There is also `MergeSpinnerAdapter` for use with `Spinner`
 widgets.
@@ -57,6 +55,11 @@ by the underlying adapter.
 
 You are welcome to override other methods as well, since this
 is just an `Adapter`.
+
+### Supporting isEnabled()
+
+If you wish, your adapters wrapped by `MergeAdapter` can override `isEnabled()`,
+and `MergeAdapter` should enable and disable the rows as directed.
 
 ### Timing
 
