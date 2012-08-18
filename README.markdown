@@ -93,6 +93,19 @@ You should add properly-configured `SpinnerAdapter` implementations
 (e.g., `ArrayAdapter`, `CursorAdapter`) to a `MergeSpinnerAdapter`
 to have it work properly.
 
+### Active/Inactive Contents
+
+By default, everything that you add to the `MergeAdapter` is "active" and
+contributes to the resulting compound contents. However, you can call
+`setActive()` to toggle whether some piece is active or inactive. Inactive
+pieces do not contribute to the contents, removing them entirely from the
+`ListView` (or wherever you are using this).
+
+There are two flavors of `setActive()`. Both take a `boolean` second parameter,
+with `true` meaning the piece is active and `false` for inactive. The first
+parameter is either a `ListAdapter` that you added already or a `View` that
+you added already (individually or as part of a `List`).
+
 Dependencies
 ------------
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
@@ -102,8 +115,10 @@ ones that you have patched yourself.
 
 Version
 -------
-This is version v0.3.1 of this module, meaning it is not completely
-scary now.
+This is version v0.4.0 of this module, meaning it is downright respectable.
+
+For those of you updating from a previous version, please note that you need
+a new edition of the `SackOfViewsAdapter` JAR as well.
 
 Demo
 ----
@@ -134,6 +149,7 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
+- v0.4.0: added `setActive()`
 - v0.3.1: added workaround for http://code.google.com/p/android/issues/detail?id=16155
 - v0.3.0: added `MergeSpinnerAdapter` support
 - v0.2.1: added `getAdapter()` method to return the `ListAdapter` associated with a given position
