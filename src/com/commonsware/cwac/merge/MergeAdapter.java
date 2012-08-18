@@ -109,7 +109,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     */
   @Override
   public Object getItem(int position) {
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
 
       if (position<size) {
@@ -128,7 +128,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     * @param position Position of the item whose adapter we want
     */
   public ListAdapter getAdapter(int position) {
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
 
       if (position<size) {
@@ -149,7 +149,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getCount() {
     int total=0;
     
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       total+=piece.getCount();
     }
     
@@ -164,7 +164,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getViewTypeCount() {
     int total=0;
     
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       total+=piece.getViewTypeCount();
     }
     
@@ -181,7 +181,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     int typeOffset=0;
     int result=-1;
     
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
 
       if (position<size) {
@@ -212,7 +212,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     */
   @Override
   public boolean isEnabled(int position) {
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
 
       if (position<size) {
@@ -235,7 +235,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   @Override
   public View getView(int position, View convertView,
                       ViewGroup parent) {
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
 
       if (position<size) {
@@ -256,7 +256,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     */
   @Override
   public long getItemId(int position) {
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
       
       if (position<size) {
@@ -273,7 +273,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getPositionForSection(int section) {
     int position=0;
     
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       if (piece instanceof SectionIndexer) {
         Object[] sections=((SectionIndexer)piece).getSections();
         int numSections=0;
@@ -300,7 +300,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getSectionForPosition(int position) {
     int section=0;
     
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
       
       if (position<size) {
@@ -330,7 +330,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public Object[] getSections() {
     ArrayList<Object> sections=new ArrayList<Object>();
     
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       if (piece instanceof SectionIndexer) {
         Object[] curSections=((SectionIndexer)piece).getSections();
         
@@ -347,6 +347,10 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     }
 
     return(sections.toArray(new Object[0]));
+  }
+  
+  private List<ListAdapter> getPieces() {
+    return(pieces);
   }
   
   private static class EnabledSackAdapter extends SackOfViewsAdapter {
