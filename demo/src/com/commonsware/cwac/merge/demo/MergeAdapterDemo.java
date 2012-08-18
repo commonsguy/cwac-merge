@@ -14,22 +14,25 @@
 
 package com.commonsware.cwac.merge.demo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import com.commonsware.cwac.merge.MergeAdapter;
 
-public class MergeAdapterDemo extends ListActivity {
+public class MergeAdapterDemo extends ListActivity implements OnCheckedChangeListener {
   private static final String[] items=
       { "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer",
           "adipiscing", "elit", "morbi", "vel", "ligula", "vitae",
@@ -38,6 +41,7 @@ public class MergeAdapterDemo extends ListActivity {
           "augue", "purus" };
   private MergeAdapter adapter=null;
   private ArrayAdapter<String> arrayAdapter=null;
+  private Button btn=null;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -47,7 +51,8 @@ public class MergeAdapterDemo extends ListActivity {
     adapter=new MergeAdapter();
     arrayAdapter=buildFirstList();
     adapter.addAdapter(arrayAdapter);
-    adapter.addView(buildButton(), true);
+    btn=buildButton();
+    adapter.addView(btn, true);
     adapter.addAdapter(buildSecondList());
     adapter.addView(buildLabel());
     adapter.addAdapter(buildSecondList());
@@ -60,6 +65,12 @@ public class MergeAdapterDemo extends ListActivity {
     spinnerAdapter.addAdapter(buildSecondSpinnerList());
 
     ((Spinner)findViewById(R.id.spinner)).setAdapter(spinnerAdapter);
+    
+    CheckBox cb=(CheckBox)findViewById(R.id.toggleAdapter);
+    
+    cb.setOnCheckedChangeListener(this);
+    cb=(CheckBox)findViewById(R.id.toggleButton);
+    cb.setOnCheckedChangeListener(this);
   }
 
   @Override
@@ -77,7 +88,7 @@ public class MergeAdapterDemo extends ListActivity {
                                                                 .asList(items))));
   }
 
-  private View buildButton() {
+  private Button buildButton() {
     Button result=new Button(this);
 
     result.setText("Add Capitalized Words");
@@ -140,5 +151,16 @@ public class MergeAdapterDemo extends ListActivity {
           .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
     return(result);
+  }
+
+  @Override
+  public void onCheckedChanged(CompoundButton buttonView,
+                               boolean isChecked) {
+    if (buttonView.getId()==R.id.toggleAdapter) {
+      adapter.setActive(arrayAdapter, isChecked);
+    }
+    else {
+      adapter.setActive(btn, isChecked);
+    }
   }
 }
