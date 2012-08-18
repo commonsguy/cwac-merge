@@ -180,8 +180,8 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
   public int getViewTypeCount() {
     int total=0;
 
-    for (ListAdapter piece : getPieces()) {
-      total+=piece.getViewTypeCount();
+    for (PieceState piece : pieces.getRawPieces()) {
+      total+=piece.adapter.getViewTypeCount();
     }
 
     return(Math.max(total, 1)); // needed for
@@ -201,16 +201,19 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
     int typeOffset=0;
     int result=-1;
 
-    for (ListAdapter piece : getPieces()) {
-      int size=piece.getCount();
-
-      if (position < size) {
-        result=typeOffset + piece.getItemViewType(position);
-        break;
+    for (PieceState piece : pieces.getRawPieces()) {
+      if (piece.isActive) {
+        int size=piece.adapter.getCount();
+  
+        if (position < size) {
+          result=typeOffset + piece.adapter.getItemViewType(position);
+          break;
+        }
+  
+        position-=size;
       }
-
-      position-=size;
-      typeOffset+=piece.getViewTypeCount();
+      
+      typeOffset+=piece.adapter.getViewTypeCount();
     }
 
     return(result);
@@ -375,8 +378,18 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
 
     return(sections.toArray(new Object[0]));
   }
+  
+  public void setActive(ListAdapter adapter, boolean isActive) {
+    pieces.setActive(adapter, isActive);
+    notifyDataSetChanged();
+  }
 
-  private List<ListAdapter> getPieces() {
+  public void setActive(View v, boolean isActive) {
+    pieces.setActive(v, isActive);
+    notifyDataSetChanged();
+  }
+
+  protected List<ListAdapter> getPieces() {
     return(pieces.getPieces());
   }
 
@@ -396,6 +409,31 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
 
     void add(ListAdapter adapter) {
       pieces.add(new PieceState(adapter, true));
+    }
+    
+    void setActive(ListAdapter adapter, boolean isActive) {
+      for (PieceState state : pieces) {
+        if (state.adapter==adapter) {
+          state.isActive=isActive;
+          active=null;
+          break;
+        }
+      }
+    }
+    
+    void setActive(View v, boolean isActive) {
+      for (PieceState state : pieces) {
+        if (state.adapter instanceof SackOfViewsAdapter &&
+            ((SackOfViewsAdapter)state.adapter).hasView(v)) {
+          state.isActive=isActive;
+          active=null;
+          break;
+        }
+      }
+    }
+    
+    List<PieceState> getRawPieces() {
+      return(pieces);
     }
 
     List<ListAdapter> getPieces() {

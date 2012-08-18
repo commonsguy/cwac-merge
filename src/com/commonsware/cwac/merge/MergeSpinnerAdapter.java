@@ -37,7 +37,7 @@ public class MergeSpinnerAdapter extends MergeAdapter {
    */
   public View getDropDownView(int position, View convertView,
                               ViewGroup parent) {
-    for (ListAdapter piece : pieces) {
+    for (ListAdapter piece : getPieces()) {
       int size=piece.getCount();
 
       if (position<size) {
