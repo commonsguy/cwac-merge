@@ -14,9 +14,8 @@ then attach your adapter to the `ListView`.
 There is also `MergeSpinnerAdapter` for use with `Spinner`
 widgets.
 
-This is packaged as an Android library project, though a simple
-JAR is also available from the Downloads section of this
-GitHub repository.
+This is packaged as an Android library project, though
+[a simple JAR is also available](https://github.com/commonsguy/downloads).
 
 Usage
 -----
