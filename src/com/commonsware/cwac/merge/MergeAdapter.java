@@ -365,9 +365,7 @@ public class MergeAdapter extends BaseAdapter implements SectionIndexer {
         Object[] curSections=((SectionIndexer)piece).getSections();
 
         if (curSections != null) {
-          for (Object section : curSections) {
-            sections.add(section);
-          }
+          Collections.addAll(sections, curSections);
         }
       }
     }
