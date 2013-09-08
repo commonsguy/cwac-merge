@@ -108,6 +108,16 @@ with `true` meaning the piece is active and `false` for inactive. The first
 parameter is either a `ListAdapter` that you added already or a `View` that
 you added already (individually or as part of a `List`).
 
+### IGNORE_ITEM_VIEW_TYPE and
+
+Neither `IGNORE_ITEM_VIEW_TYPE` from `Adapter` nor `ITEM_VIEW_TYPE_IGNORE` from
+`AdapterView` are honored by `MergeAdapter`. That's mostly because there is no
+evidence that either constant is used inside of Android, and the documentation
+for each is shaky at best. If you find a use case for either of these values,
+please post an [issue](https://github.com/commonsguy/cwac-merge/issues),
+with enough information to reproduce the use case and therefore confirm that
+a modified `MergeAdapter` does what it is supposed to.
+
 Dependencies
 ------------
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
