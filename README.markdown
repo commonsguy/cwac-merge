@@ -131,7 +131,7 @@ that do not work on API Level 4 and are not noted as requiring a higher version.
 
 Version
 -------
-This is version v0.4.0 of this module, meaning it is downright respectable.
+This is version v1.0.0 of this module.
 
 For those of you updating from a previous version, please note that you need
 a new edition of the `SackOfViewsAdapter` JAR as well.
@@ -165,6 +165,7 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
+- v1.0.0: milestone considered reached
 - v0.4.0: added `setActive()`
 - v0.3.1: added workaround for http://code.google.com/p/android/issues/detail?id=16155
 - v0.3.0: added `MergeSpinnerAdapter` support
