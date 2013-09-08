@@ -82,61 +82,15 @@
     <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
-    <target name="dist-dir">
-        <mkdir dir="dist"/>
-    </target>
-
-    <target name="dist-full" depends="dist-dir">
-        <delete file="dist/CWAC-MergeAdapter-full.zip" />
-        <zip destfile="dist/CWAC-MergeAdapter-full.zip">
-            <zipfileset
-                dir="."
-                prefix="CWAC-MergeAdapter"
-                includes="**"
-                excludes="bin/**, dist/**, gen/**, .git/**, .gitignore, demo/bin/**, demo/gen/**"
-            />
-        </zip>
-    </target>
-
-    <target name="dist-lite" depends="dist-dir">
-        <delete file="dist/CWAC-MergeAdapter-lite.zip" />
-        <zip destfile="dist/CWAC-MergeAdapter-lite.zip">
-            <zipfileset
-                dir="."
-                prefix="CWAC-MergeAdapter"
-                includes="**"
-                excludes="bin/**, dist/**, gen/**, .git/**, .gitignore, demo/**"
-            />
-        </zip>
-    </target>
-
-    <target name="jar" depends="debug">
-        <jar
-            destfile="bin/CWAC-MergeAdapter.jar"
-            basedir="bin/classes"
-        />
-    </target>
-
-    <target name="dist-jar" depends="dist-dir, jar">
-        <delete file="dist/CWAC-MergeAdapter-jar.zip" />
-        <copy file="bin/CWAC-MergeAdapter.jar" todir="libs"/>
-        <mkdir dir="tmp" />
-        <mkdir dir="tmp/src" />
-        <zip destfile="dist/CWAC-MergeAdapter-jar.zip">
-            <zipfileset
-                dir="."
-                prefix="CWAC-MergeAdapter"
-                includes="**"
-                excludes="tmp/**, bin/**, dist/**, gen/**, .git/**, src/**, .gitignore, demo/**"
-            />
-            <zipfileset
-                dir="tmp"
-                prefix="CWAC-MergeAdapter"
-                includes="src/"
-            />
-        </zip>
-        <delete dir="tmp"/>
-        <delete file="libs/CWAC-MergeAdapter.jar" />
-    </target>
+	<target name="jar" depends="release">
+		<delete file="bin/CWAC-MergeAdapter.jar" />
+    <jar destfile="bin/CWAC-MergeAdapter.jar">
+      <fileset dir="bin/classes">
+        <exclude name="**/BuildConfig.class" />
+        <exclude name="**/R.class" />
+        <exclude name="**/R$*.class" />
+      </fileset>
+    </jar>
+	</target>
 
 </project>
