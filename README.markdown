@@ -108,7 +108,7 @@ with `true` meaning the piece is active and `false` for inactive. The first
 parameter is either a `ListAdapter` that you added already or a `View` that
 you added already (individually or as part of a `List`).
 
-### IGNORE_ITEM_VIEW_TYPE and
+### IGNORE_ITEM_VIEW_TYPE and ITEM_VIEW_TYPE_IGNORE
 
 Neither `IGNORE_ITEM_VIEW_TYPE` from `Adapter` nor `ITEM_VIEW_TYPE_IGNORE` from
 `AdapterView` are honored by `MergeAdapter`. That's mostly because there is no
