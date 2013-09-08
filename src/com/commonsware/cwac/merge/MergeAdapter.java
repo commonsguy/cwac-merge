@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.SectionIndexer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import com.commonsware.cwac.sacklist.SackOfViewsAdapter;
 
