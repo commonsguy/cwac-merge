@@ -15,7 +15,7 @@ There is also `MergeSpinnerAdapter` for use with `Spinner`
 widgets.
 
 This is packaged as an Android library project, though
-[a simple JAR is also available](https://github.com/commonsguy/downloads).
+[a simple JAR is also available](https://github.com/commonsguy/cwac-merge/releases).
 
 Usage
 -----
