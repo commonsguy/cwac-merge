@@ -14,8 +14,40 @@ then attach your adapter to the `ListView`.
 There is also `MergeSpinnerAdapter` for use with `Spinner`
 widgets.
 
-This is packaged as an Android library project, though
-[a simple JAR is also available](https://github.com/commonsguy/cwac-merge/releases).
+Installation
+------------
+This Android library project is 
+[available as a JAR](https://gihub.com/commonsguy/cwac-merge/releases).
+If you wish to use the JAR, you will need to also add the JAR from
+[the CWAC-Sacklist project](http://github.com/commonsguy/cwac-sacklist) to your
+project
+
+Also note that if you plan to use this as an Android library project
+in source form, you
+will also need to download [the CWAC-Sacklist project](http://github.com/commonsguy/cwac-sacklist)
+(and, if needed, modify this project's configuration to point to your copy of
+CWAC-Sacklist library project). Alternatively, download the CWAC-Sacklist JAR into
+the `libs/` directory of your clone of this project and remove the dependency on
+the CWAC-Sacklist library project.
+
+This project is also available as
+an artifact for use with Gradle. To use that, add the following
+blocks to your `build.gradle` file:
+
+```groovy
+repositories {
+    maven {
+        url "https://repo.commonsware.com.s3.amazonaws.com"
+    }
+}
+
+dependencies {
+    compile 'com.commonsware.cwac:merge:1.0.1'
+}
+```
+
+Or, if you cannot use SSL, use `http://repo.commonsware.com` for the repository
+URL. This should automatically pull down the CWAC-Sacklist dependency.
 
 Usage
 -----
@@ -131,7 +163,7 @@ that do not work on API Level 4 and are not noted as requiring a higher version.
 
 Version
 -------
-This is version v1.0.0 of this module.
+This is version v1.0.1 of this module.
 
 For those of you updating from a previous version, please note that you need
 a new edition of the `SackOfViewsAdapter` JAR as well.
@@ -165,6 +197,7 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
+- v1.0.1: added Gradle files and published AAR
 - v1.0.0: milestone considered reached
 - v0.4.0: added `setActive()`
 - v0.3.1: added workaround for http://code.google.com/p/android/issues/detail?id=16155
