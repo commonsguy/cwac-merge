@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:merge:1.0.1'
+    compile 'com.commonsware.cwac:merge:1.0.2'
 }
 ```
 
@@ -155,7 +155,8 @@ Dependencies
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
 A copy of a compatible JAR can be found in the `libs/` directory of
 the project, though you are welcome to try newer ones, or
-ones that you have patched yourself.
+ones that you have patched yourself. Users of the AAR artifact will automatically
+download this dependency.
 
 This project should work on API Level 4 and higher, except for any portions that
 may be noted otherwise in this document. Please report bugs if you find features
@@ -163,7 +164,7 @@ that do not work on API Level 4 and are not noted as requiring a higher version.
 
 Version
 -------
-This is version v1.0.1 of this module.
+This is version v1.0.2 of this module.
 
 For those of you updating from a previous version, please note that you need
 a new edition of the `SackOfViewsAdapter` JAR as well.
@@ -186,7 +187,8 @@ file.
 Questions
 ---------
 If you have questions regarding the use of this code, please post a question
-on [StackOverflow](http://stackoverflow.com/questions/ask) tagged with `commonsware` and `android`. Be sure to indicate
+on [StackOverflow](http://stackoverflow.com/questions/ask) tagged with
+`commonsware-cwac` and `android` after [searching to see if there already is an answer](https://stackoverflow.com/search?q=[android]+mergeadapter). Be sure to indicate
 what CWAC module you are having issues with, and be sure to include source code 
 and stack traces if you are encountering crashes.
 
@@ -197,6 +199,7 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
+- v1.0.2: fixed manifest to better handle manifest merging
 - v1.0.1: added Gradle files and published AAR
 - v1.0.0: milestone considered reached
 - v0.4.0: added `setActive()`

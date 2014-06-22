@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
         classpath 'com.github.dcendents:android-maven-plugin:1.0'
     }
 }
@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'android-library'
 apply plugin: 'android-maven'
 
-version '1.0.1'
+version '1.0.2'
 group 'com.commonsware.cwac'
 
 repositories {
@@ -27,7 +27,7 @@ dependencies {
 
 android {
     compileSdkVersion 17
-    buildToolsVersion "18.1.0"
+    buildToolsVersion "19.1.0"
 
     sourceSets {
         main {
@@ -49,7 +49,7 @@ android {
 
 android.libraryVariants.all { variant ->
   def name = variant.buildType.name
-  if (name.equals(com.android.builder.BuilderConstants.DEBUG)) {
+  if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
     return; // Skip debug builds.
   }
   def task = project.tasks.create "jar${name.capitalize()}", Jar
