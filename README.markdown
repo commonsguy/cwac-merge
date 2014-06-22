@@ -17,7 +17,7 @@ widgets.
 Installation
 ------------
 This Android library project is 
-[available as a JAR](https://gihub.com/commonsguy/cwac-merge/releases).
+[available as a JAR](https://github.com/commonsguy/cwac-merge/releases).
 If you wish to use the JAR, you will need to also add the JAR from
 [the CWAC-Sacklist project](http://github.com/commonsguy/cwac-sacklist) to your
 project
