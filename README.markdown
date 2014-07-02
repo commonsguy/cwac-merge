@@ -199,6 +199,7 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
+- v1.0.3: re-fixed manifest to better handle manifest merging per issue #14
 - v1.0.2: fixed manifest to better handle manifest merging
 - v1.0.1: added Gradle files and published AAR
 - v1.0.0: milestone considered reached
