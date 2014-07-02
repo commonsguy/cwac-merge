@@ -20,7 +20,9 @@ This Android library project is
 [available as a JAR](https://github.com/commonsguy/cwac-merge/releases).
 If you wish to use the JAR, you will need to also add the JAR from
 [the CWAC-Sacklist project](http://github.com/commonsguy/cwac-sacklist) to your
-project
+project.
+
+NOTE: The JAR name, as of v1.0.4, has a `cwac-` prefix, to help distinguish it from other JARs.
 
 Also note that if you plan to use this as an Android library project
 in source form, you

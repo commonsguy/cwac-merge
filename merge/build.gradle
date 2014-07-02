@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'android-library'
 apply plugin: 'android-maven'
 
-version '1.0.3'
+version '1.0.4'
 group 'com.commonsware.cwac'
 
 repositories {
@@ -54,5 +54,5 @@ android.libraryVariants.all { variant ->
   def task = project.tasks.create "jar${name.capitalize()}", Jar
   task.dependsOn variant.javaCompile
   task.from variant.javaCompile.destinationDir
-  // artifacts.add('archives', task);
+  task.archiveName = "cwac-${task.archiveName}"
 }
