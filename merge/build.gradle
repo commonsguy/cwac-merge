@@ -28,6 +28,11 @@ android {
     compileSdkVersion 17
     buildToolsVersion "19.1.0"
 
+    defaultConfig {
+        minSdkVersion 4
+        targetSdkVersion 17
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
