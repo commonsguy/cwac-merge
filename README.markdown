@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:merge:1.0.2'
+    compile 'com.commonsware.cwac:merge:1.1.0'
 }
 ```
 
