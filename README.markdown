@@ -166,7 +166,7 @@ that do not work on API Level 4 and are not noted as requiring a higher version.
 
 Version
 -------
-This is version v1.0.2 of this module.
+This is version v1.1.0 of this module.
 
 For those of you updating from a previous version, please note that you need
 a new edition of the `SackOfViewsAdapter` JAR as well.
@@ -201,6 +201,7 @@ Do not ask for help via Twitter.
 
 Release Notes
 -------------
+- v1.1.0: added `android:minSdkVersion` to library manifest
 - v1.0.4: added `cwac-` prefix to JAR
 - v1.0.3: re-fixed manifest to better handle manifest merging per issue #14
 - v1.0.2: fixed manifest to better handle manifest merging

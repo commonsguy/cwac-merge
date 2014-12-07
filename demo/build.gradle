@@ -8,7 +8,7 @@ repositories {
 
 dependencies {
     debugCompile project(':merge')
-    releaseCompile 'com.commonsware.cwac:merge:1.0.+'
+    releaseCompile 'com.commonsware.cwac:merge:1.1.+'
 }
 
 android {
