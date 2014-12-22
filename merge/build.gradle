@@ -1,17 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-plugin:1.2'
-    }
-}
-
-apply plugin: 'android-library'
-apply plugin: 'android-maven'
-
-version '1.1.0'
-group 'com.commonsware.cwac'
+apply plugin: 'com.android.library'
 
 repositories {
     maven {
@@ -53,5 +40,20 @@ android.libraryVariants.all { variant ->
   def task = project.tasks.create "jar${name.capitalize()}", Jar
   task.dependsOn variant.javaCompile
   task.from variant.javaCompile.destinationDir
-  task.archiveName = "cwac-${task.archiveName}"
+  task.baseName = "cwac-${PUBLISH_ARTIFACT_ID}"
+  task.version = PUBLISH_VERSION
+  task.exclude('com/commonsware/cwac/**/BuildConfig.**')
 }
+
+apply plugin: 'maven'
+ 
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.groupId = PUBLISH_GROUP_ID
+        pom.artifactId = PUBLISH_ARTIFACT_ID
+        pom.version = PUBLISH_VERSION
+
+        repository(url: LOCAL_REPO)
+    }
+}
+
