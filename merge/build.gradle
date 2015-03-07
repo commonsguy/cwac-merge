@@ -30,30 +30,31 @@ android {
     }
 }
 
-// from http://stackoverflow.com/a/19484146/115145
+if (project.hasProperty('PUBLISH_GROUP_ID')) {
+    // from http://stackoverflow.com/a/19484146/115145
 
-android.libraryVariants.all { variant ->
-  def name = variant.buildType.name
-  if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
-    return; // Skip debug builds.
-  }
-  def task = project.tasks.create "jar${name.capitalize()}", Jar
-  task.dependsOn variant.javaCompile
-  task.from variant.javaCompile.destinationDir
-  task.baseName = "cwac-${PUBLISH_ARTIFACT_ID}"
-  task.version = PUBLISH_VERSION
-  task.exclude('com/commonsware/cwac/**/BuildConfig.**')
-}
+    android.libraryVariants.all { variant ->
+        def name = variant.buildType.name
+        if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
+            return; // Skip debug builds.
+        }
+        def task = project.tasks.create "jar${name.capitalize()}", Jar
+        task.dependsOn variant.javaCompile
+        task.from variant.javaCompile.destinationDir
+        task.baseName = "cwac-${PUBLISH_ARTIFACT_ID}"
+        task.version = PUBLISH_VERSION
+        task.exclude('com/commonsware/cwac/**/BuildConfig.**')
+    }
 
-apply plugin: 'maven'
- 
-uploadArchives {
-    repositories.mavenDeployer {
-        pom.groupId = PUBLISH_GROUP_ID
-        pom.artifactId = PUBLISH_ARTIFACT_ID
-        pom.version = PUBLISH_VERSION
+    apply plugin: 'maven'
 
-        repository(url: LOCAL_REPO)
+    uploadArchives {
+        repositories.mavenDeployer {
+            pom.groupId = PUBLISH_GROUP_ID
+            pom.artifactId = PUBLISH_ARTIFACT_ID
+            pom.version = PUBLISH_VERSION
+
+            repository(url: LOCAL_REPO)
+        }
     }
 }
-
