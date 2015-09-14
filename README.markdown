@@ -39,7 +39,7 @@ blocks to your `build.gradle` file:
 ```groovy
 repositories {
     maven {
-        url "https://repo.commonsware.com.s3.amazonaws.com"
+        url "https://s3.amazonaws.com/repo.commonsware.com"
     }
 }
 
