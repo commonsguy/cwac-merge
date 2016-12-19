@@ -7,27 +7,12 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:sacklist:1.0.+'
+    compile 'com.commonsware.cwac:sacklist:1.0.3'
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "19.1.0"
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
-
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
-    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 }
 
 if (project.hasProperty('PUBLISH_GROUP_ID')) {
@@ -44,6 +29,27 @@ if (project.hasProperty('PUBLISH_GROUP_ID')) {
         task.baseName = "cwac-${PUBLISH_ARTIFACT_ID}"
         task.version = PUBLISH_VERSION
         task.exclude('com/commonsware/cwac/**/BuildConfig.**')
+    }
+
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+
+    task javadoc(type: Javadoc) {
+        failOnError  false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
     }
 
     apply plugin: 'maven'

@@ -8,25 +8,10 @@ repositories {
 
 dependencies {
     debugCompile project(':merge')
-    releaseCompile 'com.commonsware.cwac:merge:1.1.+'
+    releaseCompile 'com.commonsware.cwac:merge:1.1.2'
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "19.1.0"
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
-
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
-    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 }

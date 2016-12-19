@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:merge:1.1.+'
+    compile 'com.commonsware.cwac:merge:1.1.2'
 }
 ```
 
@@ -152,6 +152,11 @@ please post an [issue](https://github.com/commonsguy/cwac-merge/issues),
 with enough information to reproduce the use case and therefore confirm that
 a modified `MergeAdapter` does what it is supposed to.
 
+### JavaDocs
+
+[JavaDocs are available](http://javadocs.commonsware.com/cwac/merge/index.html)
+for your JavaDocing pleasure.
+
 Dependencies
 ------------
 This project requires the [CWAC SackOfViewsAdapter][sacklist].
@@ -166,7 +171,7 @@ that do not work on API Level 4 and are not noted as requiring a higher version.
 
 Version
 -------
-This is version v1.1.1 of this module.
+This is version v1.1.2 of this module.
 
 For those of you updating from a previous version, please note that you need
 a new edition of the `SackOfViewsAdapter` JAR as well.
@@ -189,7 +194,7 @@ file.
 Questions
 ---------
 If you have questions regarding the use of this code, please post a question
-on [StackOverflow](http://stackoverflow.com/questions/ask) tagged with
+on [Stack Overflow](http://stackoverflow.com/questions/ask) tagged with
 `commonsware-cwac` and `android` after [searching to see if there already is an answer](https://stackoverflow.com/search?q=[android]+mergeadapter). Be sure to indicate
 what CWAC module you are having issues with, and be sure to include source code 
 and stack traces if you are encountering crashes.
@@ -200,10 +205,16 @@ The [contribution guidelines](CONTRIBUTING.md)
 provide some suggestions for how to create a bug report that will get
 the problem fixed the fastest.
 
-Do not ask for help via Twitter.
+You are also welcome to join
+[the CommonsWare Community](https://community.commonsware.com/)
+and post questions
+and ideas to [the CWAC category](https://community.commonsware.com/c/cwac).
+
+Do not ask for help via social media.
 
 Release Notes
 -------------
+- v1.1.2: reorganized project into Android Studio-standard structure
 - v1.1.1: updated for Android Studio 1.0 and new AAR publishing system
 - v1.1.0: added `android:minSdkVersion` to library manifest
 - v1.0.4: added `cwac-` prefix to JAR
