@@ -1,6 +1,8 @@
 CWAC MergeAdapter: Stitching Together Rows
 ==========================================
 
+**NOTE**: This project has been discontinued. This repository will be made private on 1 June 2020.
+
 `MergeAdapter` accepts a mix of `Adapter`s and `View`s and
 presents them as one contiguous whole to whatever `ListView`
 it is poured into. This is good for cases where you have
